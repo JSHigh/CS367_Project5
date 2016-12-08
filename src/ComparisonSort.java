@@ -1,3 +1,6 @@
+import javax.xml.transform.Templates;
+import java.util.Calendar;
+
 /**
  * This class implements six different comparison sorts (and an optional
  * seventh sort for extra credit):
@@ -27,7 +30,22 @@ public class ComparisonSort {
      * @param A    the array to sort
      */
     public static <E extends Comparable<E>> void selectionSort(E[] A) {
-        // TODO: implement this sorting algorithm
+        int j, k, minIndex;
+        E min;
+        int N = A.length;
+
+        for (k = 0; k < N; k++) {
+            min = A[k];
+            minIndex = k;
+            for (j = k+1; j < N; j++) {
+                if (A[j].compareTo(min) < 0) {
+                    min = A[j];
+                    minIndex = j;
+                }
+            }
+            A[minIndex] = A[k];
+            A[k] = min;
+        }
     }
 
     /**
@@ -226,5 +244,25 @@ public class ComparisonSort {
                           "----------", "------------");
 
         // TODO: run each sort and print statistics about what it did
+        long startTime = 0;
+        long endTime = 0;
+        long ellapsedTime = 0;
+        String sortName = "";
+        int compares = 0;
+        int moves = 0;
+        
+        // Sort 1: selection sort
+        sortName = "Selection Sort";
+        SortObject[] selSort = A;
+        startTime = System.currentTimeMillis();
+        ComparisonSort.selectionSort(selSort);
+        endTime = System.currentTimeMillis();
+        ellapsedTime = endTime - startTime;
+        for (SortObject so : selSort) {
+        	compares += so.getCompares();
+        }
+        ComparisonSort.printStatistics(sortName, compares, moves, ellapsedTime);
+        
+        // Sort 2: 
     }
 }
