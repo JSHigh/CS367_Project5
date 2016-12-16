@@ -1,6 +1,7 @@
 import javax.xml.transform.Templates;
 import java.util.Calendar;
 
+
 /**
  * This class implements six different comparison sorts (and an optional
  * seventh sort for extra credit):
@@ -258,9 +259,9 @@ public class ComparisonSort {
         ComparisonSort.selectionSort(selSort);
         endTime = System.currentTimeMillis();
         ellapsedTime = endTime - startTime;
-        for (SortObject so : selSort) {
-        	compares += so.getCompares();
-        }
+       	compares += SortObject.getCompares();
+        SortObject.resetCompares(); // rest the object's compares before the next sort
+
         ComparisonSort.printStatistics(sortName, compares, moves, ellapsedTime);
         
         // Sort 2: 
