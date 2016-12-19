@@ -58,6 +58,19 @@ public class ComparisonSort {
      */
     public static <E extends Comparable<E>> void insertionSort(E[] A) {
         // TODO: implement this sorting algorithm
+    	int k, j;
+        E tmp;
+        int N = A.length;
+          
+        for (k = 1; k < N; k++) {
+            tmp = A[k];
+            j = k - 1;
+            while ((j >= 0) && (A[j].compareTo(tmp) > 0)) {
+                A[j+1] = A[j]; // move one value over one place to the right
+                j--;
+            }
+        A[j+1] = tmp;    // insert kth value in correct place relative to previous values
+        }
     }
 
     /**
@@ -69,6 +82,61 @@ public class ComparisonSort {
      */
     public static <E extends Comparable<E>> void mergeSort(E[] A) {
         // TODO: implement this sorting algorithm
+    	mergeAux(A, 0, A.length - 1); // call the aux. function to do all the work
+    }
+     
+    private static <E extends Comparable<E>> void mergeAux(E[] A, int low, int high) {
+        // base case
+        if (low == high) return;
+     
+        // recursive case
+        
+        // Step 1: Find the middle of the array (conceptually, divide it in half)
+        int mid = (low + high) / 2;
+         
+        // Steps 2 and 3: Sort the 2 halves of A
+        mergeAux(A, low, mid);
+        mergeAux(A, mid+1, high);
+     
+        // Step 4: Merge sorted halves into an auxiliary array
+        E[] tmp = (E[])(new Comparable[high-low+1]);
+        int left = low;    // index into left half
+        int right = mid+1; // index into right half
+        int pos = 0;       // index into tmp
+         
+        while ((left <= mid) && (right <= high)) {
+        // choose the smaller of the two values "pointed to" by left, right
+        // copy that value into tmp[pos]
+        // increment either left or right as appropriate
+        // increment pos
+        if (A[left].compareTo(A[right]) <= 0) {
+          	tmp[pos] = A[left];
+           	left++;
+        }
+        else {
+        	tmp[pos] = A[right];
+            right++;
+        }
+        pos++;
+        }
+        
+        // when one of the two sorted halves has "run out" of values, but
+        // there are still some in the other half, copy all the remaining 
+        // values to tmp
+        // Note: only 1 of the next 2 loops will actually execute
+        while (left <= mid) {
+        	tmp[pos] = A[left];  
+            left++;
+            pos++;
+        }
+        while (right <= high) { 
+        	tmp[pos] = A[right]; 
+            right++;
+            pos++;
+        }
+     
+        // all values are in tmp; copy them back into A
+        System.arraycopy(tmp, 0, A, low, tmp.length);
     }
 
     /**
@@ -82,10 +150,76 @@ public class ComparisonSort {
      */
     public static <E extends Comparable<E>> void quickSort(E[] A) {
         // TODO: implement this sorting algorithm
+    	quickAux(A, 0, A.length-1);
     }
-
-
+    
     /**
+     * recursive helper function to sort an array using quick sort
+     * @param A - array to be sorted
+     * @param low - starting value to sort
+     * @param high - ending value to sort
+     */
+    private static <E extends Comparable<E>> void quickAux(E[] A, int low, int high) {
+    	//TODO: make sure this works right for arrays of length 1 or 2 (smallest we should support)
+        //if (high-low < 4) insertionSort(A, low, high);
+        //else {
+            int right = partition(A, low, high);
+            quickAux(A, low, right);
+            quickAux(A, right+2, high);
+        //}
+    }
+    
+    /**
+     * partitions array into two halves around a calculated pivot point
+     * @param A - array to partition
+     * @param low - start of data
+     * @param high - end of data
+     * @return
+     */
+    private static <E extends Comparable<E>> int partition(E[] A, int low, int high) {
+    	E pivot = medianOfThree(A, low, high); // this does step 1
+    	int left = low+1;
+    	int right = high-2;
+        while ( left <= right ) {
+            while (A[left].compareTo(pivot) < 0) left++;
+            while (A[right].compareTo(pivot) > 0) right--;
+            if (left <= right) {
+                swap(A, left, right);
+                left++;
+                right--;
+            }
+        }
+
+        swap(A, right+1, high-1); // step 4
+        return right;
+    }
+    
+    /**
+     * Swaps two values in an array
+     * @param a - array
+     * @param i - value 1
+     * @param j - value 2
+     */
+	private static void swap(E[] a, int i, int j) {
+		int jTemp = j;
+		a[j] = i;
+		a[i] = jTemp;
+	}
+	
+	/**
+	 * calculates the median of three values low, high, and (low+high)/2
+	 * @param a - array of values
+	 * @param low - lowest value in array
+	 * @param high - highest value in array
+	 * @return value in the middle
+	 */
+	private static E medianOfThree(E[] a, int low, int high) {
+		// TODO Auto-generated method stub
+		int avg = (low + high) / 2;
+		return Math.max( Math.min(low , high) , Math.min( Math.max(low , high) , avg));
+	}
+
+	/**
      * Sorts the given array using the heap sort algorithm outlined below. Note:
      * after this method finishes the array is in sorted order.
      * <p>
@@ -149,6 +283,8 @@ public class ComparisonSort {
      */
     public static <E extends Comparable<E>> void selection2Sort(E[] A) {
         // TODO: implement this sorting algorithm
+    	int begin = 0;
+    	int end = A.length - 1;
     }
 
     
