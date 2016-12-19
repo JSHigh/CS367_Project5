@@ -57,7 +57,6 @@ public class ComparisonSort {
      * @param A    the array to sort
      */
     public static <E extends Comparable<E>> void insertionSort(E[] A) {
-        // TODO: implement this sorting algorithm
     	int k, j;
         E tmp;
         int N = A.length;
@@ -81,16 +80,21 @@ public class ComparisonSort {
      * @param A    the array to sort
      */
     public static <E extends Comparable<E>> void mergeSort(E[] A) {
-        // TODO: implement this sorting algorithm
     	mergeAux(A, 0, A.length - 1); // call the aux. function to do all the work
     }
-     
-    private static <E extends Comparable<E>> void mergeAux(E[] A, int low, int high) {
+    
+    /**
+     * Helper function to recursively perform a merge sort
+     * @param A - array to be sorted
+     * @param low - starting index to sort
+     * @param high - ending index to sort
+     */
+    @SuppressWarnings("unchecked")
+	private static <E extends Comparable<E>> void mergeAux(E[] A, int low, int high) {
         // base case
         if (low == high) return;
      
         // recursive case
-        
         // Step 1: Find the middle of the array (conceptually, divide it in half)
         int mid = (low + high) / 2;
          
@@ -149,7 +153,6 @@ public class ComparisonSort {
      * @param A   the array to sort
      */
     public static <E extends Comparable<E>> void quickSort(E[] A) {
-        // TODO: implement this sorting algorithm
     	quickAux(A, 0, A.length-1);
     }
     
@@ -168,6 +171,7 @@ public class ComparisonSort {
     			}
     		}
     	}
+    	
     	else {
     		int right = partition(A, low, high);
             quickAux(A, low, right);
@@ -202,16 +206,13 @@ public class ComparisonSort {
     
     /**
      * Swaps two values in an array
-     * @param a - array
-     * @param i - value 1
-     * @param j - value 2
+     * @param a - array of data
+     * @param i - index 1 to swap with index 2
+     * @param j - index 2 to swap with index 1
      */
 	private static <E extends Comparable<E>> void swap(E[] a, int i, int j) {
-		//moves++;
 		E tmp = a[i];
-		//increment counter
 		a[i] = a[j];
-		//increment counter
 		a[j] = tmp;
 	}
 	
@@ -223,7 +224,6 @@ public class ComparisonSort {
 	 * @return value in the middle
 	 */
 	private static <E extends Comparable<E>> E medianOfThree(E[] a, int low, int high) {
-		// TODO Auto-generated method stub
 		int avg = (low + high) / 2;
 		//compare average (middle) and low
 		if (a[low].compareTo(a[avg]) > 0) {
@@ -261,8 +261,77 @@ public class ComparisonSort {
      * @param <E>  the type of values to be sorted
      * @param A    the array to sort
      */
-    public static <E extends Comparable<E>> void heapSort(E[] A) {
-        // TODO: implement this sorting algorithm
+    @SuppressWarnings("unchecked")
+	public static <E extends Comparable<E>> void heapSort(E[] A) {
+    	int length = A.length;
+    	int size = 0;
+    	E[] heap = (E[])(new Comparable[length + 1]);
+    	
+    	//for each i from 1 to end of the array, insert A[i] into heap
+    	for (int i = 0; i < length; i++) {
+    		heap[size++] = A[i];
+    		
+    		// Heapify by swapping the value up
+    		int child = size;
+    		while (heap[child / 2] != null && heap[child / 2].compareTo(heap[child]) < 0) {
+    			// Swap the value up because the parent is less
+    			E temp = heap[child / 2];
+    			heap[child / 2] = heap[child];
+    			heap[child] = temp;
+
+    			// Do we need to swap again?
+    			child = child / 2;
+    		}
+   		}
+
+   		// for each i from the end of the array up to 1
+   		// remove the max element from the heap and put it in A[i]
+   		for (int i = length - 1; i >= 0; i--) {
+   			// Save the root as the value to put at the end of the array
+   			A[i] = heap[1];
+			// Set the last child as the root
+			heap[1] = heap[size];
+    		// Set the old last child as null
+    		heap[size--] = null;
+
+    		// Heapify by swapping down
+    		int parent = 1;
+    		while (parent * 2 + 1 < heap.length && ((heap[parent * 2] != null && heap[parent * 2].compareTo(heap[parent]) > 0) || (heap[parent * 2 + 1] != null && heap[parent * 2 + 1].compareTo(heap[parent]) > 0))) {
+    			// Swap the parent with the child if the children are bigger
+    			E temp = heap[parent];
+    			
+    			// If both children are bigger, pick the biggest and swap
+    			if (heap[parent * 2] != null && heap[parent * 2 + 1] != null) {
+    				if (heap[parent * 2].compareTo(heap[parent * 2 + 1]) > 0) {
+    					// The left is bigger, swap with the parent
+    					heap[parent] = heap[parent * 2];
+    					heap[parent * 2] = temp;
+    					parent *= 2;
+    				} 
+    				
+    				else {
+    					// The right is bigger, swap with the parent
+    					heap[parent] = heap[parent * 2 + 1];
+    					heap[parent * 2 + 1] = temp;
+    					parent = parent * 2 + 1;
+    				}
+  				} 
+    			
+    			else if (heap[parent * 2] != null) {
+    				// Only the left child is bigger swap with the parent
+    				heap[parent] = heap[parent * 2];
+    				heap[parent * 2] = temp;
+    				parent *= 2;
+  				} 
+    			
+    			else {
+    				// Only the right child is bigger, swap with the parent
+    				heap[parent] = heap[parent * 2 + 1];
+    				heap[parent * 2 + 1] = temp;
+    				parent = parent * 2 + 1;
+   				}
+   			}
+    	}
     }
 
     /**
