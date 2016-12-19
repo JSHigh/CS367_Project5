@@ -160,13 +160,19 @@ public class ComparisonSort {
      * @param high - ending value to sort
      */
     private static <E extends Comparable<E>> void quickAux(E[] A, int low, int high) {
-    	//TODO: make sure this works right for arrays of length 1 or 2 (smallest we should support)
-        //if (high-low < 4) insertionSort(A, low, high);
-        //else {
-            int right = partition(A, low, high);
+    	if (high - low < 2) {
+    		//base case of two items or fewer, sort manually
+    		if (high - low == 1) {
+    			if (A[low].compareTo(A[high]) > 0) {
+    				swap(A, low, high);
+    			}
+    		}
+    	}
+    	else {
+    		int right = partition(A, low, high);
             quickAux(A, low, right);
             quickAux(A, right+2, high);
-        //}
+    	}
     }
     
     /**
@@ -174,7 +180,7 @@ public class ComparisonSort {
      * @param A - array to partition
      * @param low - start of data
      * @param high - end of data
-     * @return
+     * @return position where swapped pivot was moved
      */
     private static <E extends Comparable<E>> int partition(E[] A, int low, int high) {
     	E pivot = medianOfThree(A, low, high); // this does step 1
@@ -200,10 +206,13 @@ public class ComparisonSort {
      * @param i - value 1
      * @param j - value 2
      */
-	private static void swap(E[] a, int i, int j) {
-		int jTemp = j;
-		a[j] = i;
-		a[i] = jTemp;
+	private static <E extends Comparable<E>> void swap(E[] a, int i, int j) {
+		//moves++;
+		E tmp = a[i];
+		//increment counter
+		a[i] = a[j];
+		//increment counter
+		a[j] = tmp;
 	}
 	
 	/**
@@ -213,10 +222,25 @@ public class ComparisonSort {
 	 * @param high - highest value in array
 	 * @return value in the middle
 	 */
-	private static E medianOfThree(E[] a, int low, int high) {
+	private static <E extends Comparable<E>> E medianOfThree(E[] a, int low, int high) {
 		// TODO Auto-generated method stub
 		int avg = (low + high) / 2;
-		return Math.max( Math.min(low , high) , Math.min( Math.max(low , high) , avg));
+		//compare average (middle) and low
+		if (a[low].compareTo(a[avg]) > 0) {
+			swap(a, low, avg);
+		}
+		
+		//compare low and high
+		if (a[low].compareTo(a[high]) > 0) {
+			swap(a, low, high);
+		}
+		
+		//compare average and high
+		if (a[avg].compareTo(a[high]) > 0) {
+			swap(a, avg, high);
+		}
+		
+		return a[high -1];
 	}
 
 	/**
