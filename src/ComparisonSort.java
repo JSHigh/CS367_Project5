@@ -278,80 +278,118 @@ public class ComparisonSort {
      * @param <E>  the type of values to be sorted
      * @param A    the array to sort
      */
-    @SuppressWarnings("unchecked")
 	public static <E extends Comparable<E>> void heapSort(E[] A) {
-    	int length = A.length;
-    	int size = 0;
-    	E[] heap = (E[])(new Comparable[length + 1]);
-    	
-    	//for each i from 1 to end of the array, insert A[i] into heap
-    	for (int i = 0; i < length; i++) {
-    		size++;
-    		heap[size] = A[i]; moves++;
-    		
-    		// Heapify by swapping the value up
-    		int child = size;
-    		int parent = child / 2;
-    		while (heap[parent] != null && heap[parent].compareTo(heap[child]) < 0) {
-    			// Swap the value up because the parent is less
-    			E temp = heap[parent]; moves++;
-    			heap[parent] = heap[child]; moves++;
-    			heap[child] = temp; moves++;
-
-    			// Do we need to swap again?
-    			child = parent;
-    		}
-   		}
-
-   		// for each i from the end of the array up to 1
-   		// remove the max element from the heap and put it in A[i]
-   		for (int i = length - 1; i >= 0; i--) {
-   			// Save the root as the value to put at the end of the array
-   			A[i] = heap[1]; moves++;
-			// Set the last child as the root
-			heap[1] = heap[size]; moves++;
-    		// Set the old last child as null
-    		heap[size--] = null; moves++;
-
-    		// Heapify by swapping down
-    		int parent = 1;
-    		while (parent * 2 + 1 < heap.length && ((heap[parent * 2] != null && heap[parent * 2].compareTo(heap[parent]) > 0) || (heap[parent * 2 + 1] != null && heap[parent * 2 + 1].compareTo(heap[parent]) > 0))) {
-    			// Swap the parent with the child if the children are bigger
-    			E temp = heap[parent]; moves++;
-    			
-    			// If both children are bigger, pick the biggest and swap
-    			if (heap[parent * 2] != null && heap[parent * 2 + 1] != null) {
-    				if (heap[parent * 2].compareTo(heap[parent * 2 + 1]) > 0) {
-    					// The left is bigger, swap with the parent
-    					heap[parent] = heap[parent * 2]; moves++;
-    					heap[parent * 2] = temp; moves++;
-    					parent *= 2;
-    				} 
-    				
-    				else {
-    					// The right is bigger, swap with the parent
-    					heap[parent] = heap[parent * 2 + 1]; moves++;
-    					heap[parent * 2 + 1] = temp; moves++;
-    					parent = parent * 2 + 1;
-    				}
-  				} 
-    			
-    			else if (heap[parent * 2] != null) {
-    				// Only the left child is bigger swap with the parent
-    				heap[parent] = heap[parent * 2]; moves++;
-    				heap[parent * 2] = temp; moves++;
-    				parent *= 2;
-  				} 
-    			
-    			else {
-    				// Only the right child is bigger, swap with the parent
-    				heap[parent] = heap[parent * 2 + 1]; moves++;
-    				heap[parent * 2 + 1] = temp; moves++;
-    				parent = parent * 2 + 1;
-   				}
-   			}
-    	}
+       	int length = A.length - 1;
+       	
+       	//build a heap from the array to start with
+       	for (int i = length / 2; i >= 0; i--) {
+       		heapify(A, length, i); moves++;
+       	}
+       	
+       	//then loop through array, swap first and last elements and reheapify the contents
+       	for (int i = length; i > 0; i--) {
+       		swap(A, 0, i); moves++;
+       		length--;
+       		heapify(A, length, 0); moves++;
+       	}
     }
+        
+    /**
+     * Recursive function to heapify an array
+     * @param A - array to heapify
+     * @param length - total data elements
+     * @param i - element to validate
+     */
+    private static <E extends Comparable<E>> void heapify(E[] A, int length, int i) {
+    	int largest = i;
+    	int leftChild = 2 * i;
+    	int rightChild = leftChild + 1;
+    	if (leftChild <= length && A[leftChild].compareTo(A[largest]) > 0) {
+    		largest = leftChild;
+    	}
+    		
+    	if (rightChild <= length && A[rightChild].compareTo(A[largest]) > 0) {
+    		largest = rightChild;
+    	}
+    	
+    	if (largest != i) {
+    		swap(A, i, largest); moves++;
+    		heapify(A, length, i); moves++;
+    	}
+    }	
+    
+//    	int length = A.length;
+//    	int size = 0;
+//    	E[] heap = (E[])(new Comparable[length + 1]);
+//    	
+//    	//for each i from 1 to end of the array, insert A[i] into heap
+//    	for (int i = 0; i < length; i++) {
+//    		size++;
+//    		heap[size] = A[i]; moves++;
+//    		
+//    		// Heapify by swapping the value up
+//    		int child = size;
+//    		int parent = child / 2;
+//    		while (heap[parent] != null && heap[parent].compareTo(heap[child]) < 0) {
+//    			// Swap the value up because the parent is less
+//    			E temp = heap[parent]; moves++;
+//    			heap[parent] = heap[child]; moves++;
+//    			heap[child] = temp; moves++;
+//
+//    			// Do we need to swap again?
+//    			child = parent;
+//    		}
+//   		}
+//
+//   		// for each i from the end of the array up to 1
+//   		// remove the max element from the heap and put it in A[i]
+//   		for (int i = length - 1; i >= 0; i--) {
+//   			// Save the root as the value to put at the end of the array
+//   			A[i] = heap[1]; moves++;
+//			// Set the last child as the root
+//			heap[1] = heap[size]; moves++;
+//    		// Set the old last child as null
+//    		heap[size--] = null; moves++;
+//
+//    		// Heapify by swapping down
+//    		int parent = 1;
+//    		while (parent * 2 + 1 < heap.length && ((heap[parent * 2] != null && heap[parent * 2].compareTo(heap[parent]) > 0) || (heap[parent * 2 + 1] != null && heap[parent * 2 + 1].compareTo(heap[parent]) > 0))) {
+//    			// Swap the parent with the child if the children are bigger
+//    			E temp = heap[parent]; moves++;
+//    			
+//    			// If both children are bigger, pick the biggest and swap
+//    			if (heap[parent * 2] != null && heap[parent * 2 + 1] != null) {
+//    				if (heap[parent * 2].compareTo(heap[parent * 2 + 1]) > 0) {
+//    					// The left is bigger, swap with the parent
+//    					heap[parent] = heap[parent * 2]; moves++;
+//    					heap[parent * 2] = temp; moves++;
+//    					parent *= 2;
+//    				} 
+//    				
+//    				else {
+//    					// The right is bigger, swap with the parent
+//    					heap[parent] = heap[parent * 2 + 1]; moves++;
+//    					heap[parent * 2 + 1] = temp; moves++;
+//    					parent = parent * 2 + 1;
+//    				}
+//  				} 
+//    			
+//    			else if (heap[parent * 2] != null) {
+//    				// Only the left child is bigger swap with the parent
+//    				heap[parent] = heap[parent * 2]; moves++;
+//    				heap[parent * 2] = temp; moves++;
+//    				parent *= 2;
+//  				} 
+//    			
+//    			else {
+//    				// Only the right child is bigger, swap with the parent
+//    				heap[parent] = heap[parent * 2 + 1]; moves++;
+//    				heap[parent * 2 + 1] = temp; moves++;
+//    				parent = parent * 2 + 1;
+//   				}
+//   			}
+//    	}
+//    }
 
     /**
      * Sorts the given array using the selection2 sort algorithm outlined
