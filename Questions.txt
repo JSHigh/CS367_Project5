@@ -14,7 +14,8 @@ Directions: answer the following five (5) questions.
 array into ascending order.  How did you test your code to determine
 if it did this?
 
-Answer:
+Answer: Wrote a checker function to enumerate the array and check for
+sorted order.
 
 
 2) In this question you will run TestSort four times using the
@@ -37,7 +38,7 @@ Merge Sort                         153            572              0
 Quick Sort                         697             72              0
 Heap Sort                          197            395              0
 Selection Sort 2                 1,287            150              0
-Insertion Sort 2                    26          2,454              0
+Insertion Sort 2                 1,276             93              0
 
 Run 2
 algorithm                data compares     data moves   milliseconds
@@ -48,7 +49,7 @@ Merge Sort                       2,272          8,976              0
 Quick Sort                      63,247            747              1
 Heap Sort                        1,997          3,995              1
 Selection Sort 2               125,374          1,500              1
-Insertion Sort 2                   251        249,570              3
+Insertion Sort 2               125,251          1,260              3
 
 Run 3
 algorithm                data compares     data moves   milliseconds
@@ -59,7 +60,7 @@ Merge Sort                      32,004        123,616              1
 Quick Sort                   6,257,497          7,497             18
 Heap Sort                       19,997         39,995              1
 Selection Sort 2            12,503,750         15,000             24
-Insertion Sort 2                 2,501     24,995,715            138
+Insertion Sort 2            12,502,501         11,838            138
 
 Run 4
 algorithm                data compares     data moves   milliseconds
@@ -70,7 +71,7 @@ Merge Sort                     401,952      1,568,928             11
 Quick Sort				caused stack overflow, removed to get remaining data
 Heap Sort                      199,997        399,995              4
 Selection Sort 2         1,250,037,499        150,000          2,032
-Insertion Sort 2                25,001 -1,795,009,975          2,599
+Insertion Sort 2         1,250,025,001        122,658          2,599
 
 3) In this question you again will run TestSort four times using the
 parameters indicated in the table:
@@ -92,7 +93,7 @@ Merge Sort                      11,088         43,904              1
 Quick Sort                   1,002,997          2,997             14
 Heap Sort                        7,997         15,995              1
 Selection Sort 2             2,001,499          6,000             14
-Insertion Sort 2                 1,001      3,998,286             19
+Insertion Sort 2             2,001,001          4,722             23
 
 Run 6
 algorithm                data compares     data moves   milliseconds
@@ -103,7 +104,7 @@ Merge Sort                      11,088         43,904              1
 Quick Sort                   1,002,997          2,997              6
 Heap Sort                        7,997         15,995              1
 Selection Sort 2             2,001,499          6,000              8
-Insertion Sort 2                 1,001      3,998,286             11
+Insertion Sort 2             2,001,001          4,722             27
 
 Run 7
 algorithm                data compares     data moves   milliseconds
@@ -114,7 +115,7 @@ Merge Sort                      11,088         43,904              1
 Quick Sort                   1,002,997          2,997              6
 Heap Sort                        7,997         15,995              0
 Selection Sort 2             2,001,499          6,000              8
-Insertion Sort 2                 1,001      3,998,286             10
+Insertion Sort 2                 1,001      3,998,286             29
 
 Run 8
 algorithm                data compares     data moves   milliseconds

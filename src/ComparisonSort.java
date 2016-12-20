@@ -39,7 +39,7 @@ import java.util.Arrays;
  */
 
 public class ComparisonSort {
-	static boolean debug = true; // TODO: disable
+	static boolean debug = false; // TODO: disable
 	static int moves = 0;
 
     /**
