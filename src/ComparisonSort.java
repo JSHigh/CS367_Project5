@@ -1,7 +1,7 @@
+import java.util.Arrays;
+import java.util.PriorityQueue;
+
 import javax.xml.transform.Templates;
-import java.math.*;
-import java.nio.channels.FileChannel.MapMode;
-import java.util.Calendar;
 
 
 /**
@@ -249,6 +249,17 @@ public class ComparisonSort {
 		return a[high -1];
 	}
 
+	
+	public static <E extends Comparable<E>> void heapSort2(E[] A) {
+		PriorityQueue<E> heap = new PriorityQueue<>();
+		for(E tmp : A) {
+			heap.add(tmp); moves++;
+		}
+		for (int i = 0; i < A.length; i++) {
+			A[i] = heap.remove(); moves++;
+		}
+	}
+
 	/**
      * Sorts the given array using the heap sort algorithm outlined below. Note:
      * after this method finishes the array is in sorted order.
@@ -275,18 +286,20 @@ public class ComparisonSort {
     	
     	//for each i from 1 to end of the array, insert A[i] into heap
     	for (int i = 0; i < length; i++) {
-    		heap[size++] = A[i]; moves++;
+    		size++;
+    		heap[size] = A[i]; moves++;
     		
     		// Heapify by swapping the value up
     		int child = size;
-    		while (heap[child / 2] != null && heap[child / 2].compareTo(heap[child]) < 0) {
+    		int parent = child / 2;
+    		while (heap[parent] != null && heap[parent].compareTo(heap[child]) < 0) {
     			// Swap the value up because the parent is less
-    			E temp = heap[child / 2]; moves++;
-    			heap[child / 2] = heap[child]; moves++;
+    			E temp = heap[parent]; moves++;
+    			heap[parent] = heap[child]; moves++;
     			heap[child] = temp; moves++;
 
     			// Do we need to swap again?
-    			child = child / 2;
+    			child = parent;
     		}
    		}
 
@@ -381,7 +394,6 @@ public class ComparisonSort {
      * @param A    the array to sort
      */
     public static <E extends Comparable<E>> void selection2Sort(E[] A) {
-        // TODO: implement this sorting algorithm
     	int begin = 0;
     	int end = A.length - 1;
     	int[] minMax = new int[2];
@@ -413,7 +425,7 @@ public class ComparisonSort {
     }
     
     /**
-     * <b>Extra Credit:</b> Sorts the given array using the insertion2 sort 
+     * <b>Extra Credit:</b> Sorts the given array using the insertion2 sort
      * algorithm outlined below.  Note: after this method finishes the array 
      * is in sorted order.
      * <p>
@@ -458,8 +470,36 @@ public class ComparisonSort {
      */    
     public static <E extends Comparable<E>> void insertion2Sort(E[] A) { 
         // TODO: implement this sorting algorithm 
+    	E[] middle = null;
     	if((A.length % 2) != 0) {
     		throw new IllegalArgumentException();
+    	}
+    	int right = A.length / 2, left = right - 1;
+    	if (A[left].compareTo(A[right]) > 0) {
+    		E tmp = A[right]; moves++;
+    		A[right] = A[left]; moves++;
+    		A[left] = tmp; moves++;
+    	}
+    	
+    	while (left >= 0) {
+        	if (A[left].compareTo(A[right]) > 0) {
+        		E tmp = A[right]; moves++;
+        		A[right] = A[left]; moves++;
+        		A[left] = tmp; moves++;
+        	}
+        	// insert A[right] into A[left+1] : A[right]
+        	middle = Arrays.copyOfRange(A, left+1, right); moves+= middle.length;
+        	// copy sorted subarray back into A
+        	for (int i = 0; i < middle.length; i++) {
+        		A[left+1+i] = middle[i]; moves++;
+        	}
+        	// insert A[left] into A[left] : A[right-1]
+        	middle = Arrays.copyOfRange(A, left, right-1); moves+= middle.length;
+        	// copy sorted subarray back into A
+        	for (int i = 0; i < middle.length; i++) {
+        		A[left+i] = middle[i]; moves++;
+        	}
+    		left--; right++;
     	}
     }
 
@@ -566,7 +606,19 @@ public class ComparisonSort {
         sortName = "Heap Sort";
         selSort = A;
         startTime = System.currentTimeMillis();
-        // ComparisonSort.heapSort(selSort);
+        try{ComparisonSort.heapSort(selSort);} catch(Exception E) {}
+        endTime = System.currentTimeMillis();
+        ellapsedTime = endTime - startTime;
+       	compares = SortObject.getCompares();
+        SortObject.resetCompares(); // rest the object's compares before the next sort
+        ComparisonSort.printStatistics(sortName, compares, moves, ellapsedTime);
+        ComparisonSort.resetMoves();
+        
+        // heap sort check
+        sortName = "Heap Sort Check";
+        selSort = A;
+        startTime = System.currentTimeMillis();
+        ComparisonSort.heapSort2(selSort);
         endTime = System.currentTimeMillis();
         ellapsedTime = endTime - startTime;
        	compares = SortObject.getCompares();
