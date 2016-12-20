@@ -14,7 +14,7 @@ Directions: answer the following five (5) questions.
 array into ascending order.  How did you test your code to determine
 if it did this?
 
-Answer:
+Answer: Wrote a checker function that makes sure that each element is >= the one to the left.
 
 
 2) In this question you will run TestSort four times using the

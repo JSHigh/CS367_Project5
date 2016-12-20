@@ -398,15 +398,22 @@ public class ComparisonSort {
     	int end = A.length - 1;
     	int[] minMax = new int[2];
     	while (begin <= end) {
+    		// get min and max positions between begin and end
     		minMax = MinMax(A, begin, end);
+    		// swap max with end
     		E tmp = A[end]; moves++;
     		A[end] = A[minMax[1]]; moves++;
     		A[minMax[1]] = tmp; moves++;
+    		// swap min with begin
     		tmp = A[begin]; moves++;
     		A[begin] = A[minMax[0]]; moves++;
     		A[minMax[0]] = tmp; moves++;
+    		// move begin and end towards middle
     		begin++; end--;
     	}
+    	@SuppressWarnings("unused")
+		int i=0;
+    	i++;
     }
 
     private static <E extends Comparable<E>> int[] MinMax(E[] A, int begin, int end) {
@@ -421,6 +428,8 @@ public class ComparisonSort {
 				max = i;
 			}
     	}
+    	retArray[0] = min;
+    	retArray[1] = max;
     	return retArray;
     }
     
@@ -615,7 +624,7 @@ public class ComparisonSort {
         sortName = "Heap Sort";
         selSort = A;
         startTime = System.currentTimeMillis();
-        try{ComparisonSort.heapSort(selSort);} catch(Exception E) {}
+        // try{ComparisonSort.heapSort(selSort);} catch(Exception E) {}
         endTime = System.currentTimeMillis();
         ellapsedTime = endTime - startTime;
        	compares = SortObject.getCompares();
@@ -688,6 +697,9 @@ public class ComparisonSort {
     	for (int i = 1; i < A.length; i++) {
     		if (A[i].compareTo(A[i-1]) < 0) {
     			retBool = false;
+    			System.out.println(Integer.toString(i-1) + ": " + A[i-1].toString());
+    			System.out.println(Integer.toString(i) + ": " + A[i].toString());
+    			System.out.println(Integer.toString(i+1) + ": " + A[i+1].toString());
     		}
     	}
     	return retBool;
