@@ -21,7 +21,7 @@ import javax.xml.transform.Templates;
  */
 
 public class ComparisonSort {
-	
+	static boolean debug = true; // TODO: disable
 	static int moves = 0;
 
     /**
@@ -468,8 +468,7 @@ public class ComparisonSort {
      * @param  A the array to sort
      * @throws IllegalArgumentException if the length or A is not even
      */    
-    public static <E extends Comparable<E>> void insertion2Sort(E[] A) { 
-        // TODO: implement this sorting algorithm 
+    public static <E extends Comparable<E>> void insertion2Sort(E[] A) {
     	E[] middle = null;
     	if((A.length % 2) != 0) {
     		throw new IllegalArgumentException();
@@ -546,8 +545,6 @@ public class ComparisonSort {
                           "data moves", "milliseconds");
         System.out.format("%-23s%15s%15s%15s\n", "---------", "-------------", 
                           "----------", "------------");
-
-        // TODO: run each sort and print statistics about what it did
         long startTime = 0;
         long endTime = 0;
         long ellapsedTime = 0;
@@ -560,6 +557,9 @@ public class ComparisonSort {
         startTime = System.currentTimeMillis();
         ComparisonSort.selectionSort(selSort);
         endTime = System.currentTimeMillis();
+        if (debug) {
+        	System.out.println(sortName + ": " + CheckSorted(A));
+        }
         ellapsedTime = endTime - startTime;
        	compares = SortObject.getCompares();
         SortObject.resetCompares(); // rest the object's compares before the next sort
@@ -574,6 +574,9 @@ public class ComparisonSort {
         endTime = System.currentTimeMillis();
         ellapsedTime = endTime - startTime;
        	compares = SortObject.getCompares();
+       	if (debug) {
+        	System.out.println(sortName + ": " + CheckSorted(A));
+        }
         SortObject.resetCompares(); // rest the object's compares before the next sort
         ComparisonSort.printStatistics(sortName, compares, moves, ellapsedTime);
         ComparisonSort.resetMoves();
@@ -586,6 +589,9 @@ public class ComparisonSort {
         endTime = System.currentTimeMillis();
         ellapsedTime = endTime - startTime;
        	compares = SortObject.getCompares();
+       	if (debug) {
+        	System.out.println(sortName + ": " + CheckSorted(A));
+        }
         SortObject.resetCompares(); // rest the object's compares before the next sort
         ComparisonSort.printStatistics(sortName, compares, moves, ellapsedTime);
         ComparisonSort.resetMoves();
@@ -598,6 +604,9 @@ public class ComparisonSort {
         endTime = System.currentTimeMillis();
         ellapsedTime = endTime - startTime;
        	compares = SortObject.getCompares();
+       	if (debug) {
+        	System.out.println(sortName + ": " + CheckSorted(A));
+        }
         SortObject.resetCompares(); // rest the object's compares before the next sort
         ComparisonSort.printStatistics(sortName, compares, moves, ellapsedTime);
         ComparisonSort.resetMoves();
@@ -610,6 +619,9 @@ public class ComparisonSort {
         endTime = System.currentTimeMillis();
         ellapsedTime = endTime - startTime;
        	compares = SortObject.getCompares();
+       	if (debug) {
+        	System.out.println(sortName + ": " + CheckSorted(A));
+        }
         SortObject.resetCompares(); // rest the object's compares before the next sort
         ComparisonSort.printStatistics(sortName, compares, moves, ellapsedTime);
         ComparisonSort.resetMoves();
@@ -622,6 +634,9 @@ public class ComparisonSort {
         endTime = System.currentTimeMillis();
         ellapsedTime = endTime - startTime;
        	compares = SortObject.getCompares();
+       	if (debug) {
+        	System.out.println(sortName + ": " + CheckSorted(A));
+        }
         SortObject.resetCompares(); // rest the object's compares before the next sort
         ComparisonSort.printStatistics(sortName, compares, moves, ellapsedTime);
         ComparisonSort.resetMoves();
@@ -634,6 +649,9 @@ public class ComparisonSort {
         endTime = System.currentTimeMillis();
         ellapsedTime = endTime - startTime;
        	compares = SortObject.getCompares();
+       	if (debug) {
+        	System.out.println(sortName + ": " + CheckSorted(A));
+        }
         SortObject.resetCompares(); // rest the object's compares before the next sort
         ComparisonSort.printStatistics(sortName, compares, moves, ellapsedTime);
         ComparisonSort.resetMoves();
@@ -647,6 +665,9 @@ public class ComparisonSort {
         	endTime = System.currentTimeMillis();
             ellapsedTime = endTime - startTime;
            	compares = SortObject.getCompares();
+           	if (debug) {
+            	System.out.println(sortName + ": " + CheckSorted(A));
+            }
             SortObject.resetCompares(); // rest the object's compares before the next sort
             ComparisonSort.printStatistics(sortName, compares, moves, ellapsedTime);
         }
@@ -660,5 +681,15 @@ public class ComparisonSort {
     
     private static void resetMoves() {
     	moves = 0;
+    }
+    
+    private static <E extends Comparable<E>> boolean CheckSorted(E[] A) {
+    	boolean retBool = true;
+    	for (int i = 1; i < A.length; i++) {
+    		if (A[i].compareTo(A[i-1]) < 0) {
+    			retBool = false;
+    		}
+    	}
+    	return retBool;
     }
 }

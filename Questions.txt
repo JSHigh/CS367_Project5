@@ -1,7 +1,8 @@
 /***********************************************************************
 File:             Questions.txt
 
-Author:           <your name>
+Author:           Aaron Gordner
+Partner:		  Justin High
 
 Course:           CS 367, Fall 2016
 ***********************************************************************/
