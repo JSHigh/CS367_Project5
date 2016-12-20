@@ -14,7 +14,7 @@ Directions: answer the following five (5) questions.
 array into ascending order.  How did you test your code to determine
 if it did this?
 
-Answer: Wrote a checker function that makes sure that each element is >= the one to the left.
+Answer:
 
 
 2) In this question you will run TestSort four times using the
@@ -28,7 +28,49 @@ parameters indicated in the table:
 What are the sort statistics for each of the runs?
 
 Answer:
+Run 1
+algorithm                data compares     data moves   milliseconds
+---------                -------------     ----------   ------------
+Selection Sort                   1,225            279              1
+Insertion Sort                      49             98              0
+Merge Sort                         153            572              0
+Quick Sort                         697             72              0
+Heap Sort                          197            395              0
+Selection Sort 2                 1,287            150              0
+Insertion Sort 2                    26          2,454              0
 
+Run 2
+algorithm                data compares     data moves   milliseconds
+---------                -------------     ----------   ------------
+Selection Sort                 124,750          3,870              2
+Insertion Sort                     499            998              0
+Merge Sort                       2,272          8,976              0
+Quick Sort                      63,247            747              1
+Heap Sort                        1,997          3,995              1
+Selection Sort 2               125,374          1,500              1
+Insertion Sort 2                   251        249,570              3
+
+Run 3
+algorithm                data compares     data moves   milliseconds
+---------                -------------     ----------   ------------
+Selection Sort              12,497,500         50,346             58
+Insertion Sort                   4,999          9,998              0
+Merge Sort                      32,004        123,616              1
+Quick Sort                   6,257,497          7,497             18
+Heap Sort                       19,997         39,995              1
+Selection Sort 2            12,503,750         15,000             24
+Insertion Sort 2                 2,501     24,995,715            138
+
+Run 4
+algorithm                data compares     data moves   milliseconds
+---------                -------------     ----------   ------------
+Selection Sort           1,249,975,000        619,833          2,171
+Insertion Sort                  49,999         99,998              2
+Merge Sort                     401,952      1,568,928             11
+Quick Sort				caused stack overflow, removed to get remaining data
+Heap Sort                      199,997        399,995              4
+Selection Sort 2         1,250,037,499        150,000          2,032
+Insertion Sort 2                25,001 -1,795,009,975          2,599
 
 3) In this question you again will run TestSort four times using the
 parameters indicated in the table:
@@ -41,6 +83,49 @@ parameters indicated in the table:
 What are the sort statistics for each of the runs?
 
 Answer:
+Run 5
+algorithm                data compares     data moves   milliseconds
+---------                -------------     ----------   ------------
+Selection Sort               1,999,000         18,674             27
+Insertion Sort                   1,999          3,998              1
+Merge Sort                      11,088         43,904              1
+Quick Sort                   1,002,997          2,997             14
+Heap Sort                        7,997         15,995              1
+Selection Sort 2             2,001,499          6,000             14
+Insertion Sort 2                 1,001      3,998,286             19
+
+Run 6
+algorithm                data compares     data moves   milliseconds
+---------                -------------     ----------   ------------
+Selection Sort               1,999,000         18,674             16
+Insertion Sort                   1,999          3,998              0
+Merge Sort                      11,088         43,904              1
+Quick Sort                   1,002,997          2,997              6
+Heap Sort                        7,997         15,995              1
+Selection Sort 2             2,001,499          6,000              8
+Insertion Sort 2                 1,001      3,998,286             11
+
+Run 7
+algorithm                data compares     data moves   milliseconds
+---------                -------------     ----------   ------------
+Selection Sort               1,999,000         18,674             17
+Insertion Sort                   1,999          3,998              0
+Merge Sort                      11,088         43,904              1
+Quick Sort                   1,002,997          2,997              6
+Heap Sort                        7,997         15,995              0
+Selection Sort 2             2,001,499          6,000              8
+Insertion Sort 2                 1,001      3,998,286             10
+
+Run 8
+algorithm                data compares     data moves   milliseconds
+---------                -------------     ----------   ------------
+Selection Sort               1,999,000         18,674             17
+Insertion Sort                   1,999          3,998              1
+Merge Sort                      11,088         43,904              0
+Quick Sort                   1,002,997          2,997              6
+Heap Sort                        7,997         15,995              0
+Selection Sort 2             2,001,499          6,000             11
+Insertion Sort 2                 1,001      3,998,286             11
 
 
 4) In this question you will run TestSort three times using the
@@ -76,6 +161,38 @@ parameters indicated in the table:
 What are the sort statistics for each of the runs?
 
 Answer:
+Run 9
+algorithm                data compares     data moves   milliseconds
+---------                -------------     ----------   ------------
+Selection Sort              17,997,000         62,553             61
+Insertion Sort                   5,999         11,998              0
+Merge Sort                      39,152        151,616              2
+Quick Sort                   9,008,997          8,997             16
+Heap Sort                       23,997         47,995              0
+Selection Sort 2            18,004,500         18,000             30
+Insertion Sort 2                 3,001     35,994,870            105
+
+Run 10
+algorithm                data compares     data moves   milliseconds
+---------                -------------     ----------   ------------
+Selection Sort              17,997,000         18,000             50
+Insertion Sort                   5,999         11,998              1
+Merge Sort                      39,152        151,616              1
+Quick Sort                   9,008,997          8,997             17
+Heap Sort                       23,997         47,995              1
+Selection Sort 2            18,004,500         18,000             30
+Insertion Sort 2                 3,001     35,994,870            141
+
+Run 11
+algorithm                data compares     data moves   milliseconds
+---------                -------------     ----------   ------------
+Selection Sort              17,997,000      9,018,000             65
+Insertion Sort                   5,999         11,998              1
+Merge Sort                      39,152        151,616              2
+Quick Sort                   9,008,997          8,997             17
+Heap Sort                       23,997         47,995              1
+Selection Sort 2            18,004,500         18,000             28
+Insertion Sort 2                 3,001     35,994,870            133
 
 
 5) Briefly analyze your results from questions 2, 3, and 4.  Your
@@ -98,3 +215,10 @@ You should back up your analysis with examples and specific references
 to your results.
 
 Answer:
+The size of the input array is directly proportional to the performance. For example, in question 2 when we increased the size by a factor of 10 each time some of the sorts (in terms of data moves and data compares) also increased by a factor of 10 (such as insertion, insertion2, and heap) while others increased by a factor of 100 (like selection and quick). The algorithms that increase with the same size as the array are generally going to be better since their performance is tied linearly to the size of the array instead of exponentially. These performance data also coincides with the complexities we discussed in class.
+
+Time to complete the sort was generally the same across the different array sizes and starting seeds. Selection sort though started to get out of control at very large numbers to the point where it almost seemed like the program crashed since response time was slow. This would be a very bad algorithm to use if done in a user process.
+
+The order of values in the input array had no effect on the number of compares but a very large change in the number of data moves, specifically for selection sort. When selection sort is already ordered (run 10) it had extremely good performance and did very few data moves. However when it's in reverse order it had a very large number of moves which makes sense given how it sorts data. The other algorithms had no significant differences in how the data was ordered.
+
+Data moves is sprobably the most significant tell of performance. Regardless of the number of compares, if you have to shift a lot of other data around while sorting it's going to impact your response time. Especially when data already has some order (either sorted or reverse sorted) number of moves drastically affects amount of time and overall efficiency.

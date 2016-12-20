@@ -51,7 +51,9 @@ public class TestSort {
         // It is important to give the seed so you can reproduce results.
         Random random = new Random(seed);
         for (int k = 0; k < arrSize; k++)
-            arr[k] = new SortObject(random.nextInt());
+            arr[k] = new SortObject(random.nextInt()); //runs 1:9
+        	//arr[k] = new SortObject(k); //run 10
+        	//arr[k] = new SortObject(arrSize - k); //run11
 
         // Run all the sorts on the array of random integers.
         ComparisonSort.runAllSorts(arr);
