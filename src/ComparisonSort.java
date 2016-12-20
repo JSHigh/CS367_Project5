@@ -39,7 +39,7 @@ import java.util.Arrays;
  */
 
 public class ComparisonSort {
-	static boolean debug = false; // TODO: disable
+	static boolean debug = true; // TODO: disable
 	static int moves = 0;
 
     /**
@@ -552,17 +552,22 @@ public class ComparisonSort {
         		A[left] = tmp; moves++;
         	}
         	// insert A[right] into A[left+1] : A[right]
-        	middle = Arrays.copyOfRange(A, left+1, right); moves+= middle.length;
-        	// copy sorted subarray back into A
-        	for (int i = 0; i < middle.length; i++) {
-        		A[left+1+i] = middle[i]; moves++;
+        	for (int i = right; i > left; i--) {
+        		if (A[i].compareTo(A[i-1]) < 0) {
+        			E tmp = A[i]; moves++;
+        			A[i] = A[i-1]; moves++;
+        			A[i-1]=tmp; moves++;
+        		}
         	}
         	// insert A[left] into A[left] : A[right-1]
-        	middle = Arrays.copyOfRange(A, left, right-1); moves+= middle.length;
-        	// copy sorted subarray back into A
-        	for (int i = 0; i < middle.length; i++) {
-        		A[left+i] = middle[i]; moves++;
+        	for (int i = left; i < right; i++) {
+        		if (A[i].compareTo(A[i+1]) > 0) {
+        			E tmp = A[i]; moves++;
+        			A[i] = A[i+1]; moves++;
+        			A[i+1]=tmp; moves++;
+        		}
         	}
+        	// counters
     		left--; right++;
     	}
     }
