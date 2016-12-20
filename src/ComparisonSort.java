@@ -1,4 +1,6 @@
 import javax.xml.transform.Templates;
+import java.math.*;
+import java.nio.channels.FileChannel.MapMode;
 import java.util.Calendar;
 
 
@@ -19,6 +21,8 @@ import java.util.Calendar;
  */
 
 public class ComparisonSort {
+	
+	static int moves = 0;
 
     /**
      * Sorts the given array using the selection sort algorithm. You may use
@@ -36,16 +40,16 @@ public class ComparisonSort {
         int N = A.length;
 
         for (k = 0; k < N; k++) {
-            min = A[k];
+            min = A[k]; moves++;
             minIndex = k;
             for (j = k+1; j < N; j++) {
                 if (A[j].compareTo(min) < 0) {
-                    min = A[j];
+                    min = A[j]; moves++;
                     minIndex = j;
                 }
             }
-            A[minIndex] = A[k];
-            A[k] = min;
+            A[minIndex] = A[k]; moves++;
+            A[k] = min; moves++;
         }
     }
 
@@ -62,13 +66,15 @@ public class ComparisonSort {
         int N = A.length;
           
         for (k = 1; k < N; k++) {
-            tmp = A[k];
+            tmp = A[k]; moves++;
             j = k - 1;
             while ((j >= 0) && (A[j].compareTo(tmp) > 0)) {
                 A[j+1] = A[j]; // move one value over one place to the right
+                moves++;
                 j--;
             }
         A[j+1] = tmp;    // insert kth value in correct place relative to previous values
+        moves++;
         }
     }
 
@@ -114,11 +120,11 @@ public class ComparisonSort {
         // increment either left or right as appropriate
         // increment pos
         if (A[left].compareTo(A[right]) <= 0) {
-          	tmp[pos] = A[left];
+          	tmp[pos] = A[left]; moves++;
            	left++;
         }
         else {
-        	tmp[pos] = A[right];
+        	tmp[pos] = A[right]; moves++;
             right++;
         }
         pos++;
@@ -129,18 +135,18 @@ public class ComparisonSort {
         // values to tmp
         // Note: only 1 of the next 2 loops will actually execute
         while (left <= mid) {
-        	tmp[pos] = A[left];  
+        	tmp[pos] = A[left]; moves++;
             left++;
             pos++;
         }
         while (right <= high) { 
-        	tmp[pos] = A[right]; 
+        	tmp[pos] = A[right];  moves++;
             right++;
             pos++;
         }
      
         // all values are in tmp; copy them back into A
-        System.arraycopy(tmp, 0, A, low, tmp.length);
+        System.arraycopy(tmp, 0, A, low, tmp.length); moves += tmp.length;
     }
 
     /**
@@ -211,9 +217,9 @@ public class ComparisonSort {
      * @param j - index 2 to swap with index 1
      */
 	private static <E extends Comparable<E>> void swap(E[] a, int i, int j) {
-		E tmp = a[i];
-		a[i] = a[j];
-		a[j] = tmp;
+		E tmp = a[i]; moves++;
+		a[i] = a[j]; moves++;
+		a[j] = tmp; moves++;
 	}
 	
 	/**
@@ -269,15 +275,15 @@ public class ComparisonSort {
     	
     	//for each i from 1 to end of the array, insert A[i] into heap
     	for (int i = 0; i < length; i++) {
-    		heap[size++] = A[i];
+    		heap[size++] = A[i]; moves++;
     		
     		// Heapify by swapping the value up
     		int child = size;
     		while (heap[child / 2] != null && heap[child / 2].compareTo(heap[child]) < 0) {
     			// Swap the value up because the parent is less
-    			E temp = heap[child / 2];
-    			heap[child / 2] = heap[child];
-    			heap[child] = temp;
+    			E temp = heap[child / 2]; moves++;
+    			heap[child / 2] = heap[child]; moves++;
+    			heap[child] = temp; moves++;
 
     			// Do we need to swap again?
     			child = child / 2;
@@ -288,46 +294,46 @@ public class ComparisonSort {
    		// remove the max element from the heap and put it in A[i]
    		for (int i = length - 1; i >= 0; i--) {
    			// Save the root as the value to put at the end of the array
-   			A[i] = heap[1];
+   			A[i] = heap[1]; moves++;
 			// Set the last child as the root
-			heap[1] = heap[size];
+			heap[1] = heap[size]; moves++;
     		// Set the old last child as null
-    		heap[size--] = null;
+    		heap[size--] = null; moves++;
 
     		// Heapify by swapping down
     		int parent = 1;
     		while (parent * 2 + 1 < heap.length && ((heap[parent * 2] != null && heap[parent * 2].compareTo(heap[parent]) > 0) || (heap[parent * 2 + 1] != null && heap[parent * 2 + 1].compareTo(heap[parent]) > 0))) {
     			// Swap the parent with the child if the children are bigger
-    			E temp = heap[parent];
+    			E temp = heap[parent]; moves++;
     			
     			// If both children are bigger, pick the biggest and swap
     			if (heap[parent * 2] != null && heap[parent * 2 + 1] != null) {
     				if (heap[parent * 2].compareTo(heap[parent * 2 + 1]) > 0) {
     					// The left is bigger, swap with the parent
-    					heap[parent] = heap[parent * 2];
-    					heap[parent * 2] = temp;
+    					heap[parent] = heap[parent * 2]; moves++;
+    					heap[parent * 2] = temp; moves++;
     					parent *= 2;
     				} 
     				
     				else {
     					// The right is bigger, swap with the parent
-    					heap[parent] = heap[parent * 2 + 1];
-    					heap[parent * 2 + 1] = temp;
+    					heap[parent] = heap[parent * 2 + 1]; moves++;
+    					heap[parent * 2 + 1] = temp; moves++;
     					parent = parent * 2 + 1;
     				}
   				} 
     			
     			else if (heap[parent * 2] != null) {
     				// Only the left child is bigger swap with the parent
-    				heap[parent] = heap[parent * 2];
-    				heap[parent * 2] = temp;
+    				heap[parent] = heap[parent * 2]; moves++;
+    				heap[parent * 2] = temp; moves++;
     				parent *= 2;
   				} 
     			
     			else {
     				// Only the right child is bigger, swap with the parent
-    				heap[parent] = heap[parent * 2 + 1];
-    				heap[parent * 2 + 1] = temp;
+    				heap[parent] = heap[parent * 2 + 1]; moves++;
+    				heap[parent * 2 + 1] = temp; moves++;
     				parent = parent * 2 + 1;
    				}
    			}
@@ -378,8 +384,33 @@ public class ComparisonSort {
         // TODO: implement this sorting algorithm
     	int begin = 0;
     	int end = A.length - 1;
+    	int[] minMax = new int[2];
+    	while (begin <= end) {
+    		minMax = MinMax(A, begin, end);
+    		E tmp = A[end]; moves++;
+    		A[end] = A[minMax[1]]; moves++;
+    		A[minMax[1]] = tmp; moves++;
+    		tmp = A[begin]; moves++;
+    		A[begin] = A[minMax[0]]; moves++;
+    		A[minMax[0]] = tmp; moves++;
+    		begin++; end--;
+    	}
     }
 
+    private static <E extends Comparable<E>> int[] MinMax(E[] A, int begin, int end) {
+    	int[] retArray = new int[2];
+    	int min = 0;
+    	int max = 0;
+    	for (int i = begin; i <= end; i++) {
+    		if (A[i].compareTo(A[min]) < 0) {
+    			min = i;
+    		}
+    		else if (A[i].compareTo(A[max]) > 0) {
+				max = i;
+			}
+    	}
+    	return retArray;
+    }
     
     /**
      * <b>Extra Credit:</b> Sorts the given array using the insertion2 sort 
@@ -427,6 +458,9 @@ public class ComparisonSort {
      */    
     public static <E extends Comparable<E>> void insertion2Sort(E[] A) { 
         // TODO: implement this sorting algorithm 
+    	if((A.length % 2) != 0) {
+    		throw new IllegalArgumentException();
+    	}
     }
 
     /**
@@ -479,7 +513,6 @@ public class ComparisonSort {
         long ellapsedTime = 0;
         String sortName = "";
         int compares = 0;
-        int moves = 0;
         
         // Sort 1: selection sort
         sortName = "Selection Sort";
@@ -488,11 +521,92 @@ public class ComparisonSort {
         ComparisonSort.selectionSort(selSort);
         endTime = System.currentTimeMillis();
         ellapsedTime = endTime - startTime;
-       	compares += SortObject.getCompares();
+       	compares = SortObject.getCompares();
         SortObject.resetCompares(); // rest the object's compares before the next sort
-
         ComparisonSort.printStatistics(sortName, compares, moves, ellapsedTime);
+        ComparisonSort.resetMoves();
         
-        // Sort 2: 
+        // Sort 2: insertion sort
+        sortName = "Insertion Sort";
+        selSort = A;
+        startTime = System.currentTimeMillis();
+        ComparisonSort.insertionSort(selSort);
+        endTime = System.currentTimeMillis();
+        ellapsedTime = endTime - startTime;
+       	compares = SortObject.getCompares();
+        SortObject.resetCompares(); // rest the object's compares before the next sort
+        ComparisonSort.printStatistics(sortName, compares, moves, ellapsedTime);
+        ComparisonSort.resetMoves();
+        
+        // Sort 3: merge sort
+        sortName = "Merge Sort";
+        selSort = A;
+        startTime = System.currentTimeMillis();
+        ComparisonSort.mergeSort(selSort);
+        endTime = System.currentTimeMillis();
+        ellapsedTime = endTime - startTime;
+       	compares = SortObject.getCompares();
+        SortObject.resetCompares(); // rest the object's compares before the next sort
+        ComparisonSort.printStatistics(sortName, compares, moves, ellapsedTime);
+        ComparisonSort.resetMoves();
+        
+        // Sort 4: quick sort
+        sortName = "Quick Sort";
+        selSort = A;
+        startTime = System.currentTimeMillis();
+        ComparisonSort.quickSort(selSort);
+        endTime = System.currentTimeMillis();
+        ellapsedTime = endTime - startTime;
+       	compares = SortObject.getCompares();
+        SortObject.resetCompares(); // rest the object's compares before the next sort
+        ComparisonSort.printStatistics(sortName, compares, moves, ellapsedTime);
+        ComparisonSort.resetMoves();
+        
+        // Sort 5: heap sort
+        sortName = "Heap Sort";
+        selSort = A;
+        startTime = System.currentTimeMillis();
+        // ComparisonSort.heapSort(selSort);
+        endTime = System.currentTimeMillis();
+        ellapsedTime = endTime - startTime;
+       	compares = SortObject.getCompares();
+        SortObject.resetCompares(); // rest the object's compares before the next sort
+        ComparisonSort.printStatistics(sortName, compares, moves, ellapsedTime);
+        ComparisonSort.resetMoves();
+        
+        // Sort 6: selection sort 2
+        sortName = "Selection Sort 2";
+        selSort = A;
+        startTime = System.currentTimeMillis();
+        ComparisonSort.selection2Sort(selSort);
+        endTime = System.currentTimeMillis();
+        ellapsedTime = endTime - startTime;
+       	compares = SortObject.getCompares();
+        SortObject.resetCompares(); // rest the object's compares before the next sort
+        ComparisonSort.printStatistics(sortName, compares, moves, ellapsedTime);
+        ComparisonSort.resetMoves();
+        
+        // Sort 7: insertion sort 2
+        sortName = "Insertion Sort 2";
+        selSort = A;
+        startTime = System.currentTimeMillis();
+        try {
+        	ComparisonSort.insertion2Sort(selSort);
+        	endTime = System.currentTimeMillis();
+            ellapsedTime = endTime - startTime;
+           	compares = SortObject.getCompares();
+            SortObject.resetCompares(); // rest the object's compares before the next sort
+            ComparisonSort.printStatistics(sortName, compares, moves, ellapsedTime);
+        }
+        catch(IllegalArgumentException iae) {
+        	ComparisonSort.printStatistics(sortName + " N/A", 0, 0, 0);
+        }
+        finally {
+        	ComparisonSort.resetMoves();
+		}
+    }
+    
+    private static void resetMoves() {
+    	moves = 0;
     }
 }
