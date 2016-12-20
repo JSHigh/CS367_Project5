@@ -1,7 +1,24 @@
-import java.util.Arrays;
-import java.util.PriorityQueue;
+///////////////////////////////////////////////////////////////////////////////
+//
+// Main Class File:  TestSortljava
+// File:             ComparisonSort.java
+// Semester:         CS 367 Fall 2016
+//
+// Author:           Justin High
+// CS Login:         high
+// Lecturer's Name:  Charles Fischer
+// Lab Section:      004
+//
+///////////////////////////////////////////////////////////////////////////////
+//
+// Pair Partner:     Aaron Gordner
+// Email:            agord@wisc.edu
+// CS Login:         gordner
+// Lecturer's Name:  Charles Fischer
+// Lab Section:      004
+/////////////////////////////////////////////////////////////////////////////
 
-import javax.xml.transform.Templates;
+import java.util.Arrays;
 
 
 /**
@@ -18,10 +35,11 @@ import javax.xml.transform.Templates;
  * </ul>
  * It also has a method that runs all the sorts on the same input array and
  * prints out statistics.
+ * @author jhigh
  */
 
 public class ComparisonSort {
-	static boolean debug = true; // TODO: disable
+	static boolean debug = false; // TODO: disable
 	static int moves = 0;
 
     /**
@@ -249,17 +267,6 @@ public class ComparisonSort {
 		return a[high -1];
 	}
 
-	
-	public static <E extends Comparable<E>> void heapSort2(E[] A) {
-		PriorityQueue<E> heap = new PriorityQueue<>();
-		for(E tmp : A) {
-			heap.add(tmp); moves++;
-		}
-		for (int i = 0; i < A.length; i++) {
-			A[i] = heap.remove(); moves++;
-		}
-	}
-
 	/**
      * Sorts the given array using the heap sort algorithm outlined below. Note:
      * after this method finishes the array is in sorted order.
@@ -454,6 +461,17 @@ public class ComparisonSort {
     	i++;
     }
 
+    /***
+     * This method takes an array and two indices within the array, and
+     * finds returns the index of the highest and lowest values between
+     * the starting indices.
+     * 
+     * @param <E> the type of values to be sorted
+     * @param A the array to sort
+     * @param begin the index to start from
+     * @param end the index to end at
+     * @return retArray a 2-member array of int positions of min/max
+     */
     private static <E extends Comparable<E>> int[] MinMax(E[] A, int begin, int end) {
     	int[] retArray = new int[2];
     	int min = 0;
@@ -662,7 +680,7 @@ public class ComparisonSort {
         sortName = "Heap Sort";
         selSort = A;
         startTime = System.currentTimeMillis();
-        // try{ComparisonSort.heapSort(selSort);} catch(Exception E) {}
+        ComparisonSort.heapSort(selSort);
         endTime = System.currentTimeMillis();
         ellapsedTime = endTime - startTime;
        	compares = SortObject.getCompares();
@@ -671,22 +689,6 @@ public class ComparisonSort {
         }
         SortObject.resetCompares(); // rest the object's compares before the next sort
         ComparisonSort.printStatistics(sortName, compares, moves, ellapsedTime);
-        ComparisonSort.resetMoves();
-        
-        // heap sort check
-        sortName = "Heap Sort Check";
-        selSort = A;
-        startTime = System.currentTimeMillis();
-        ComparisonSort.heapSort2(selSort);
-        endTime = System.currentTimeMillis();
-        ellapsedTime = endTime - startTime;
-       	compares = SortObject.getCompares();
-       	if (debug) {
-        	System.out.println(sortName + ": " + CheckSorted(A));
-        }
-        SortObject.resetCompares(); // rest the object's compares before the next sort
-        ComparisonSort.printStatistics(sortName, compares, moves, ellapsedTime);
-        ComparisonSort.resetMoves();
         
         // Sort 6: selection sort 2
         sortName = "Selection Sort 2";
@@ -726,18 +728,24 @@ public class ComparisonSort {
 		}
     }
     
+    /***
+     * Resets the counter for data object moves
+     */
     private static void resetMoves() {
     	moves = 0;
     }
     
+    /***
+     * Checks if the given array is in sorted order.
+     * @param <E> type of elements to be sorted
+     * @param A array
+     * @return retBool true if the array is sorted
+     */
     private static <E extends Comparable<E>> boolean CheckSorted(E[] A) {
     	boolean retBool = true;
     	for (int i = 1; i < A.length; i++) {
     		if (A[i].compareTo(A[i-1]) < 0) {
     			retBool = false;
-    			System.out.println(Integer.toString(i-1) + ": " + A[i-1].toString());
-    			System.out.println(Integer.toString(i) + ": " + A[i].toString());
-    			System.out.println(Integer.toString(i+1) + ": " + A[i+1].toString());
     		}
     	}
     	return retBool;

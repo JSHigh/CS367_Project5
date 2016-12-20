@@ -1,11 +1,25 @@
 import java.util.Random;
 
-/**
- * This program tests some of the functionality of the ComparisonSort class. 
- * It does not completely test the ComparisonSort class.  You should make sure 
- * that you do completely test your ComparisonSort class, either by modifying 
- * this file or by writing a different driver.
- */
+///////////////////////////////////////////////////////////////////////////////
+//
+//Title:            TestSort
+//Files:            TestSort.java, ComparisonSort.java, SortObject.java, Questions.txt
+//Semester:         CS 367 Fall 2016
+//
+//Author:           Justin High
+//Email:            jshigh@wisc.edu
+//CS Login:         high
+//Lecturer's Name:  Charles Fischer
+//Lab Section:      004
+//
+///////////////////////////////////////////////////////////////////////////////
+//
+//Pair Partner:     Aaron Gordner
+//Email:            agord@wisc.edu
+//CS Login:         gordner
+//Lecturer's Name:  Charles Fischer
+//Lab Section:      004
+//////////////////////////////////////////////////////////////////////////////
 public class TestSort {
 
     /**
